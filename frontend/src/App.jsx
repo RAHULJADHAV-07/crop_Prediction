@@ -18,7 +18,7 @@ function App() {
         </main>
         
         <footer>
-          <p>© 2025 Smart Farmer Recommender - Powered by AI</p>
+          <p>© 2025 Smart Farmer Recommender </p>
         </footer>
       </div>
     </div>
