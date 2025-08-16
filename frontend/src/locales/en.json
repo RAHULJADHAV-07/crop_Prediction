@@ -1,0 +1,77 @@
+{
+  "title": "🌾 Smart Farmer Recommender",
+  "subtitle": "Get intelligent crop recommendations, nutrient analysis, and water quality insights tailored to your region and soil type",
+  "footer": "© 2025 Smart Farmer Recommender",
+  "form": {
+    "title": "🌱 Get Your Crop Recommendations",
+    "region": "📍 Select Region",
+    "regionPlaceholder": "Choose your region",
+    "soilType": "🌍 Select Soil Type", 
+    "soilTypePlaceholder": "Choose your soil type",
+    "getRecommendations": "🔍 Get Crop Recommendations",
+    "gettingRecommendations": "Getting Recommendations...",
+    "selectBothFields": "Please select both region and soil type"
+  },
+  "results": {
+    "title": "🎯 Top 3 Crop Recommendations",
+    "farmDetails": "📍 Farm Details",
+    "region": "Region",
+    "soilType": "Soil Type",
+    "crop": "Crop",
+    "recommended": "Recommended",
+    "nutrients": "🧪 Required Nutrients (kg/ha) - (Nitrogen, Phosphorus, Potassium, Sulfur, Zinc)",
+    "waterQuality": "💧 Water Quality Parameters", 
+    "fertilizer": "🌿 Recommended Fertilizer"
+  },
+  "fertilizers": {
+    "Vermicompost, Bio-fertilizers": "Vermicompost, Bio-fertilizers",
+    "Urea, DAP": "Urea, DAP (Diammonium Phosphate)",
+    "Bone Meal, Urea": "Bone Meal, Urea",
+    "Gypsum, Ammonium Sulphate": "Gypsum, Ammonium Sulphate",
+    "Compost, NPK": "Compost, NPK (Nitrogen-Phosphorus-Potassium)",
+    "Superphosphate, Lime": "Superphosphate, Lime",
+    "Potash, Farmyard Manure": "Potash, Farmyard Manure",
+    "Neem cake, Rock phosphate": "Neem cake, Rock phosphate",
+    "Cow dung, Potash": "Cow dung, Potash",
+    "Green manure, Phosphate": "Green manure, Phosphate"
+  },
+  "chemicals": {
+    "N": "N (Nitrogen)",
+    "P": "P (Phosphorus)",
+    "K": "K (Potassium)",
+    "S": "S (Sulfur)",
+    "Zn": "Zn (Zinc)",
+    "pH": "pH (Potential of Hydrogen)",
+    "Turbidity (NTU)": "Turbidity (Nephelometric Turbidity Units)",
+    "Water Temperature (°C)": "Water Temperature (°C)"
+  },
+  "regions": {
+    "Bihar": "Bihar",
+    "Gujarat": "Gujarat",
+    "Haryana": "Haryana",
+    "Kerala": "Kerala",
+    "Madhya Pradesh": "Madhya Pradesh",
+    "Maharashtra": "Maharashtra",
+    "Punjab": "Punjab",
+    "Rajasthan": "Rajasthan",
+    "Tamil Nadu": "Tamil Nadu",
+    "Uttar Pradesh": "Uttar Pradesh"
+  },
+  "soilTypes": {
+    "Alluvial": "Alluvial",
+    "Black": "Black",
+    "Chalky": "Chalky",
+    "Clay": "Clay",
+    "Laterite": "Laterite",
+    "Loamy": "Loamy",
+    "Peaty": "Peaty",
+    "Red": "Red",
+    "Saline": "Saline",
+    "Sandy": "Sandy"
+  },
+  "errors": {
+    "noRecommendations": "No crop recommendations received",
+    "fetchFailed": "Failed to get recommendations. Please try again.",
+    "dropdownFailed": "Failed to load dropdown data"
+  }
+}

@@ -1,14 +1,36 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const API_BASE_URL = 'http://127.0.0.1:5000';
 
 const CropRecommendation = () => {
+  const { t } = useTranslation();
   const [dropdownData, setDropdownData] = useState({});
   const [selectedRegion, setSelectedRegion] = useState('');
   const [selectedSoilType, setSelectedSoilType] = useState('');
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState(null);
   const [error, setError] = useState('');
+
+  // Function to translate chemical names
+  const translateChemical = (chemicalKey) => {
+    return t(`chemicals.${chemicalKey}`, { defaultValue: chemicalKey });
+  };
+
+  // Function to translate region names
+  const translateRegion = (regionKey) => {
+    return t(`regions.${regionKey}`, { defaultValue: regionKey });
+  };
+
+  // Function to translate soil type names
+  const translateSoilType = (soilTypeKey) => {
+    return t(`soilTypes.${soilTypeKey}`, { defaultValue: soilTypeKey });
+  };
+
+  // Function to translate fertilizer names
+  const translateFertilizer = (fertilizerKey) => {
+    return t(`fertilizers.${fertilizerKey}`, { defaultValue: fertilizerKey });
+  };
 
   useEffect(() => {
     // Fetch dropdown data on component mount
@@ -19,7 +41,7 @@ const CropRecommendation = () => {
         setDropdownData(data);
       } catch (error) {
         console.error('Error fetching dropdown data:', error);
-        setError('Failed to load dropdown data');
+        setError(t('errors.dropdownFailed'));
       }
     };
 
@@ -38,7 +60,7 @@ const CropRecommendation = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!selectedRegion || !selectedSoilType) {
-      setError('Please select both region and soil type');
+      setError(t('form.selectBothFields'));
       return;
     }
 
@@ -62,7 +84,7 @@ const CropRecommendation = () => {
       const cropData = await cropResponse.json();
       
       if (!cropData.top_recommendations) {
-        throw new Error('No crop recommendations received');
+        throw new Error(t('errors.noRecommendations'));
       }
 
       // Get detailed predictions for top 3 crops
@@ -95,7 +117,7 @@ const CropRecommendation = () => {
       });
     } catch (error) {
       console.error('Error:', error);
-      setError('Failed to get recommendations. Please try again.');
+      setError(t('errors.fetchFailed'));
     } finally {
       setLoading(false);
     }
@@ -105,22 +127,22 @@ const CropRecommendation = () => {
     <div className="container">
       {/* Input Form */}
       <div className="card">
-        <h2>🌱 Get Your Crop Recommendations</h2>
+        <h2>{t('form.title')}</h2>
         
         <form onSubmit={handleSubmit}>
           <div className="form-grid">
             {/* Region Dropdown */}
             <div className="form-group">
-              <label>📍 Select Region</label>
+              <label>{t('form.region')}</label>
               <select
                 value={selectedRegion}
                 onChange={(e) => setSelectedRegion(e.target.value)}
                 required
               >
-                <option value="">Choose your region</option>
+                <option value="">{t('form.regionPlaceholder')}</option>
                 {dropdownData.Region && dropdownData.Region.map((region) => (
                   <option key={region} value={region}>
-                    {region}
+                    {translateRegion(region)}
                   </option>
                 ))}
               </select>
@@ -128,16 +150,16 @@ const CropRecommendation = () => {
 
             {/* Soil Type Dropdown */}
             <div className="form-group">
-              <label>🌍 Select Soil Type</label>
+              <label>{t('form.soilType')}</label>
               <select
                 value={selectedSoilType}
                 onChange={(e) => setSelectedSoilType(e.target.value)}
                 required
               >
-                <option value="">Choose your soil type</option>
+                <option value="">{t('form.soilTypePlaceholder')}</option>
                 {dropdownData['Soil Type'] && dropdownData['Soil Type'].map((soilType) => (
                   <option key={soilType} value={soilType}>
-                    {soilType}
+                    {translateSoilType(soilType)}
                   </option>
                 ))}
               </select>
@@ -158,10 +180,10 @@ const CropRecommendation = () => {
             {loading ? (
               <span style={{display: 'flex', alignItems: 'center'}}>
                 <div className="spinner"></div>
-                Getting Recommendations...
+                {t('form.gettingRecommendations')}
               </span>
             ) : (
-              '🔍 Get Crop Recommendations'
+              t('form.getRecommendations')
             )}
           </button>
         </form>
@@ -172,12 +194,12 @@ const CropRecommendation = () => {
         <div>
           {/* Farm Info */}
           <div className="card">
-            <h2>🎯 Top 3 Crop Recommendations</h2>
+            <h2>{t('results.title')}</h2>
             <div className="farm-info">
-              <h3>📍 Farm Details</h3>
+              <h3>{t('results.farmDetails')}</h3>
               <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem'}}>
-                <p><strong>Region:</strong> {results.region}</p>
-                <p><strong>Soil Type:</strong> {results.soilType}</p>
+                <p><strong>{t('results.region')}:</strong> {translateRegion(results.region)}</p>
+                <p><strong>{t('results.soilType')}:</strong> {translateSoilType(results.soilType)}</p>
               </div>
             </div>
           </div>
@@ -189,22 +211,22 @@ const CropRecommendation = () => {
                 <div style={{display: 'flex', alignItems: 'center', gap: '0.75rem'}}>
                   <span style={{fontSize: '1.5rem'}}>🌾</span>
                   <h3>
-                    Crop {index + 1}: {crop.crop}
+                    {t('results.crop')} {index + 1}: {crop.crop}
                   </h3>
                 </div>
                 <div className="confidence-badge">
-                  {getConfidenceLevel(crop.confidence)}% Recommended
+                  {getConfidenceLevel(crop.confidence)}% {t('results.recommended')}
                 </div>
               </div>
 
               <div className="crop-details">
                 {/* Nutrients */}
                 <div className="detail-section nutrients">
-                  <h4>🧪 Required Nutrients (kg/ha)</h4>
+                  <h4>{t('results.nutrients')}</h4>
                   <div className="nutrient-list">
                     {crop.details.Nutrients && Object.entries(crop.details.Nutrients).map(([key, value]) => (
                       <div key={key} className="nutrient-item">
-                        <span className="nutrient-label">{key}:</span>
+                        <span className="nutrient-label">{translateChemical(key)}:</span>
                         <span className="nutrient-value">{Number(value).toFixed(1)}</span>
                       </div>
                     ))}
@@ -213,11 +235,11 @@ const CropRecommendation = () => {
 
                 {/* Water Quality */}
                 <div className="detail-section water-quality">
-                  <h4>💧 Water Quality Parameters</h4>
+                  <h4>{t('results.waterQuality')}</h4>
                   <div className="nutrient-list">
                     {crop.details['Water Quality'] && Object.entries(crop.details['Water Quality']).map(([key, value]) => (
                       <div key={key} className="nutrient-item">
-                        <span className="nutrient-label">{key}:</span>
+                        <span className="nutrient-label">{translateChemical(key)}:</span>
                         <span className="nutrient-value">{Number(value).toFixed(1)}</span>
                       </div>
                     ))}
@@ -226,9 +248,9 @@ const CropRecommendation = () => {
 
                 {/* Fertilizer */}
                 <div className="detail-section fertilizer">
-                  <h4>🌿 Recommended Fertilizer</h4>
+                  <h4>{t('results.fertilizer')}</h4>
                   <p style={{fontWeight: '600', color: '#1f2937'}}>
-                    {crop.details.Fertilizer}
+                    {translateFertilizer(crop.details.Fertilizer)}
                   </p>
                 </div>
               </div>
